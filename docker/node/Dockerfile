@@ -23,7 +23,7 @@ RUN npm install -g @vue/cli
 
 RUN apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/community shadow
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
-
+RUN apk add yarn
 
 ARG UID
 ARG GUID
@@ -31,9 +31,10 @@ ARG GUID
 #RUN groupmod -g $GUID www-data
 #RUN adduser -u $UID -D -g '' -G www-data www-data
 
+# Вставить UID GID всместо цифр
 RUN set -x \
-	&& addgroup -g 1003 www-data \
-	&& adduser -u 1003 -D -S -G www-data www-data
+	&& addgroup -g $GUID www-data \
+	&& adduser -u $UID -D -S -G www-data www-data
 
 
 

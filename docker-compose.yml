@@ -56,5 +56,6 @@ services:
       - $VUE_PORT:8080
     volumes:
       - "./shared/frontend:/var/www/frontend"
+      - "./shared/site:/var/www/site"
     tty: true
     working_dir: "/var/www/frontend"

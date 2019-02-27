@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sylius\Component\Product\Repository\ProductRepositoryInterface;
 use Sylius\Bundle\ProductBundle\Doctrine\ORM\ProductRepository;
 use Sylius\Component\Product\Factory\ProductFactoryInterface;
+use App\Form\OrderType;
 
 class DefaultController extends AbstractController
 {
@@ -34,5 +36,22 @@ class DefaultController extends AbstractController
 
         dd('ok');
 
+    }
+
+    /**
+     * @Route("/myform/{id}", name="myform")
+     * @param Request         $request
+     *
+     */
+    public function myFormAction(Order $order, Request $request)
+    {
+        $form = $this->createForm(OrderType::class, $order);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            dd($form->getData());
+        }
+        return $this->render('default/add_order.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
