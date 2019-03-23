@@ -7,12 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sylius\Component\Product\Repository\ProductRepositoryInterface;
-use Sylius\Bundle\ProductBundle\Doctrine\ORM\ProductRepository;
-use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use App\Form\OrderType;
-use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use App\HttpFoundation\File\Base64UploadFile;
 use App\Repository\OrderRepository;
@@ -24,20 +19,9 @@ class DefaultController extends AbstractController
      * @param Request         $request
      *
      * @return JsonResponse
-     * @throws BadRequestException
      */
-    public function indexAction(Request $request, ProductFactoryInterface $factory)
+    public function indexAction(Request $request)
     {
-        $product = $factory->createNew();
-
-        $product->setName("Детский шарф");
-        $product->setCode(10000);
-        $product->setSlug("sharf");
-        $product->setDescription("Детский шарф для детей 2-3 года");
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($product);
-        $em->flush();
 
         dd('ok');
 
@@ -108,7 +92,6 @@ class DefaultController extends AbstractController
      * @param Request         $request
      *
      * @return JsonResponse
-     * @throws BadRequestException
      */
     public function some(Request $request, OrderRepository $orderRepository)
     {
