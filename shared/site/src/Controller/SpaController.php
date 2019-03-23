@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SpaController extends AbstractController
 {
     /**
-     * @Route("/api/spa", name="home", methods={"GET"})
+     * @Route("/api/spa", name="apispa", methods={"GET"})
      * @param Request         $request
      */
     public function indexAction(Request $request)
