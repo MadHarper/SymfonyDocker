@@ -13,7 +13,11 @@ class ArticleAdminController extends AbstractController
      */
     public function index(Request $request)
     {
-        dd($request->files->get('image'));
+        /** @var UploadedFile $uploadedFile */
+        $uploadedFile = $request->files->get('image');
+
+        $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
+        $uploadedFile->move($destination, $uploadedFile->getClientOriginalName());
 
         return $this->render('article_admin/index.html.twig', [
             'controller_name' => 'ArticleAdminController',
