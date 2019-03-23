@@ -1,2 +1,2 @@
-sylius_product:
-    driver: doctrine/orm
+#sylius_product:
+#    driver: doctrine/orm

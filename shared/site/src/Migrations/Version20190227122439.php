@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
@@ -8,14 +10,20 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190106063921 extends AbstractMigration
+final class Version20190227122439 extends AbstractMigration
 {
+    public function getDescription() : string
+    {
+        return '';
+    }
+
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('ALTER TABLE "order" ADD product VARCHAR(255) NOT NULL');
+        $this->addSql('CREATE SEQUENCE orders_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE TABLE orders (id INT NOT NULL, price DOUBLE PRECISION NOT NULL, product VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
     }
 
     public function down(Schema $schema) : void
@@ -24,6 +32,7 @@ final class Version20190106063921 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('ALTER TABLE "order" DROP product');
+        $this->addSql('DROP SEQUENCE orders_id_seq CASCADE');
+        $this->addSql('DROP TABLE orders');
     }
 }

@@ -9,7 +9,7 @@ class OverrideServiceCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $definition = $container->getDefinition("sylius.context.locale.composite");
-        $definition->setDecoratedService(null);
+//        $definition = $container->getDefinition("sylius.context.locale.composite");
+//        $definition->setDecoratedService(null);
     }
 }

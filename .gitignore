@@ -2,3 +2,4 @@
 shared/logs/
 .env
 shared/postgresql/data
+shared/site/public/uploads/

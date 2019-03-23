@@ -23,7 +23,7 @@ RUN npm install -g @vue/cli
 
 RUN apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/community shadow
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
-
+RUN apk add yarn
 
 ARG UID
 ARG GUID

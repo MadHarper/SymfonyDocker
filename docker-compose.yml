@@ -45,6 +45,22 @@ services:
       POSTGRES_USER: sycast
       POSTGRES_PASSWORD: sycast
 
+  db_test:
+    build:
+      context: ./docker/postgres
+      dockerfile: Dockerfile
+    expose:
+      - "5432"
+    ports:
+      - 7139:5432
+    volumes:
+      - "./shared/postgresql/dataTest:/var/lib/postgresql/data/pgdata"
+    environment:
+      PGDATA: /var/lib/postgresql/dataTest/pgdata
+      POSTGRES_DB: sycast_test
+      POSTGRES_USER: sycast_test
+      POSTGRES_PASSWORD: sycast_test
+
   frontend:
     build:
       context: ./docker/node
@@ -56,5 +72,6 @@ services:
       - $VUE_PORT:8080
     volumes:
       - "./shared/frontend:/var/www/frontend"
+      - "./shared/site:/var/www/site"
     tty: true
     working_dir: "/var/www/frontend"
