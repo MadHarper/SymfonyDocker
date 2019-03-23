@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\HttpFoundation\File\Base64UploadFile;
+use App\Repository\OrderRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,6 +13,9 @@ use Sylius\Component\Product\Repository\ProductRepositoryInterface;
 use Sylius\Bundle\ProductBundle\Doctrine\ORM\ProductRepository;
 use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use App\Form\OrderType;
+use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class DefaultController extends AbstractController
 {
@@ -53,5 +58,62 @@ class DefaultController extends AbstractController
         return $this->render('default/add_order.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/base", name="base_image")
+     * @param Request         $request
+     *
+     * @return JsonResponse
+     */
+    public function baseAction(Request $request)
+    {
+
+        // https://www.youtube.com/watch?v=eX37-ViljIg
+
+        $base64File = $request->request->get('some', null);
+        if ($base64File) {
+            $objFile = new Base64UploadFile($base64File);
+
+            $arrFiles = $request->files->get("tenant");
+
+
+            $path = $this->getParameter('base64_upload_path');
+            $fileName = (string)uniqid(time());
+
+            $fullName = $fileName . "." . $objFile->getMimeType();
+
+            try {
+                $ss = $objFile->getClientMimeType();
+                $objFile->move($path, $fullName);
+
+            } catch (FileException $e) {
+
+            }
+
+
+            // или засунуть его в реквест и далее обработать через форму
+            $arrFiles['image']['file'] = $objFile;
+            $request->files->set("tenant", $arrFiles);
+
+            return new JsonResponse(['msg' => $ss], 200);
+
+        } else {
+            return new JsonResponse(['msg' => 'nope'], 200);
+        }
+    }
+
+    /**
+     * @Route("/some", name="some", methods={"GET"})
+     * @param Request         $request
+     *
+     * @return JsonResponse
+     * @throws BadRequestException
+     */
+    public function some(Request $request, OrderRepository $orderRepository)
+    {
+        $o = $orderRepository->getSome();
+
+        dd($o);
     }
 }

@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sylius\Component\Product\Repository\ProductRepositoryInterface;
 use Sylius\Bundle\ProductBundle\Doctrine\ORM\ProductRepository;
-use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use App\Form\OrderType;
 
 class ProgrammerController extends AbstractController
@@ -20,7 +19,7 @@ class ProgrammerController extends AbstractController
      *
      * @return JsonResponse
      */
-    public function indexAction(Request $request, ProductFactoryInterface $factory)
+    public function indexAction(Request $request)
     {
         return new JsonResponse(['msg' => "hello"], 200);
     }
